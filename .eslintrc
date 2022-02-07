@@ -1,0 +1,29 @@
+{
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "react",
+    "jest",
+    "prettier",
+    "jsx-a11y"
+  ],
+  "rules": {
+    "react/jsx-uses-vars": 2,
+    "react/jsx-uses-react": 2,
+    "react/react-in-jsx-scope": "error",
+    "react/prop-types": "off",
+    "prettier/prettier": ["warn"],
+    "@typescript-eslint/no-explicit-any": "off"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "es2020": true
+  }
+}

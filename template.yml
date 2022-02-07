@@ -1,0 +1,19 @@
+Globals:
+    Function:
+        Runtime: nodejs14.x
+        Timeout: 180
+        MemorySize: 512
+
+Resources:
+    BoletoStatus:
+        Type: AWS::Serverless::Function
+        Properties:
+            FunctionName: graphql
+            Handler: handler.graphqlHandler
+            #      CodeUri: target/api-boleto-1.3.2-SNAPSHOT.jar
+            Events:
+                ApiEvent:
+                    Type: Api
+                    Properties:
+                        Method: post
+                        Path: /graphql

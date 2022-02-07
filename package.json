@@ -1,0 +1,42 @@
+{
+	"name": "beer-to-me-api",
+	"version": "1.0.0",
+	"main": "build/src/adapters/inbound/graphql/server.js",
+	"license": "MIT",
+	"scripts": {
+		"dev:graphql": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify ./src/adapters/inbound/graphql/server.ts",
+		"start": "ts-node build/src/adapters/inbound/graphql/server.js",
+		"build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s . -o ./build",
+		"deploy": "serverless deploy"
+	},
+	"dependencies": {
+		"@aws-sdk/client-dynamodb": "^3.44.0",
+		"@aws-sdk/client-lambda": "^3.43.0",
+		"@aws-sdk/client-s3": "^3.44.0",
+		"@aws-sdk/util-dynamodb": "^3.47.0",
+		"apollo-server": "^3.5.0",
+		"apollo-server-core": "^3.5.0",
+		"apollo-server-express": "^3.5.0",
+		"apollo-server-lambda": "^3.5.0",
+		"express": "^4.17.1",
+		"graphql": "^15.3.0",
+		"moment": "^2.29.1",
+		"reflect-metadata": "^0.1.13",
+		"type-graphql": "^1.1.1",
+		"uuid": "^8.3.2"
+	},
+	"devDependencies": {
+		"@types/aws-lambda": "^8.10.85",
+		"@types/express": "^4.17.13",
+		"@types/express-graphql": "^0.9.0",
+		"@types/graphql": "^14.5.0",
+		"@types/jsonwebtoken": "^8.5.6",
+		"@types/node": "^16.11.11",
+		"@types/uuid": "^8.3.3",
+		"nodemon": "^2.0.15",
+		"ts-node": "^10.4.0",
+		"ts-node-dev": "^1.1.8",
+		"tsconfig-paths": "^3.12.0",
+		"typescript": "^4.5.2"
+	}
+}
