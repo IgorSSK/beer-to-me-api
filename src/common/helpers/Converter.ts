@@ -33,3 +33,13 @@ export const convertDynamoToObject = <T>(
 
 	return parsed as T;
 };
+
+export const convertBase64toBlob = async (url: string, blobName: string) => {
+	try {
+		const response = await fetch(url);
+
+		return response;
+	} catch (error) {
+		throw error;
+	}
+};

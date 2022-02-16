@@ -8,6 +8,7 @@ import { InsertCommentInput } from '../schemas/Comment.schema';
 import { PublishmentSchema, CreatePublishmentInput } from '../schemas/Publishment.schema';
 import { VoteConfiabilityArgs } from '../schemas/Confiability.schema';
 import Logger from '@common/helpers/Logger';
+// import { convertBase64toBlob } from '@common/helpers/Converter';
 
 @Resolver()
 class PublishmentResolver {
@@ -20,6 +21,8 @@ class PublishmentResolver {
 	async findAllPublishments() {
 		const pin = Logger.start();
 		Logger.info('[Resolver] Query: findAllPublishments');
+
+		// await convertBase64toBlob('data:text/plain;base64,aGVsbG8gd29ybGQ=', 'teste');
 
 		const response = await this._publishmentService.findAll();
 
