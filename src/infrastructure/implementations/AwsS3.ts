@@ -55,7 +55,7 @@ export class AwsS3 implements IStorage {
 
 	async createObject(
 		key: string,
-		body: string | Readable | Blob,
+		body: string | Readable | Blob | Uint8Array,
 		contentType?: string | undefined
 	): Promise<PutObjectCommandOutput> {
 		try {
