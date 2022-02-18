@@ -1,6 +1,6 @@
 {
 	"name": "beer-to-me-api",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"main": "build/src/adapters/inbound/graphql/server.js",
 	"license": "MIT",
 	"scripts": {

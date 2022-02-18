@@ -41,12 +41,12 @@ class PublishmentRepositoryAdapter implements PublishmentRepositoryPort {
 
 	async uploadPublishmentImage(
 		key: string,
-		body: Blob | Uint8Array,
+		body: Blob | Uint8Array | Buffer,
 		contentType?: string
 	): Promise<string> {
-		const response = await this._storage.createObject(key, body, contentType);
+		await this._storage.createObject(key, body, contentType);
 
-		return '';
+		return `https://publishments.s3.amazonaws.com/${key}`;
 	}
 }
 

@@ -18,6 +18,7 @@ async function serve() {
 		graphqlContext
 	).server();
 
+	app.use(express.json({ limit: '50mb' }));
 	app.use(server);
 	app.listen(PORT);
 

@@ -27,9 +27,11 @@ class Publishment {
 	}
 
 	public voteConfiability(confiability: number): void {
-		this.confiability.avarage =
+		const avarage =
 			(this.confiability.avarage * this.confiability.count + confiability) /
 			(this.confiability.count + 1);
+
+		this.confiability.avarage = Math.floor(avarage);
 		this.confiability.count++;
 	}
 }

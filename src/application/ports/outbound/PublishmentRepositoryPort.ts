@@ -4,7 +4,7 @@ import IRepositoryBase from '@application/domain/interfaces/IRepositoryBase';
 interface PublishmentRepositoryPort extends IRepositoryBase<Publishment> {
 	uploadPublishmentImage(
 		key: string,
-		body: Blob | Uint8Array,
+		body: Blob | Uint8Array | Buffer,
 		contentType?: string
 	): Promise<string>;
 }

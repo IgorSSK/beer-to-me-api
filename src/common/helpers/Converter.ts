@@ -12,7 +12,8 @@ export const convertObjectToDynamo = (obj: any) => {
 		if (typeof value === 'object') convertObjectToDynamo(value);
 		if (
 			String(new Date(String(obj[key]))) !== 'Invalid Date' &&
-			!isNaN(new Date(String(obj[key]))?.getTime())
+			!isNaN(new Date(String(obj[key]))?.getTime()) &&
+			typeof value !== 'number'
 		) {
 			obj[key] = (value as Date).toISOString();
 		}
@@ -37,7 +38,7 @@ export const convertDynamoToObject = <T>(
 
 export type UploadObject = {
 	name: string;
-	object: Uint8Array;
+	object: Buffer;
 	type: string;
 };
 export const convertBase64toUploadObject = (url: string, blobName: string): UploadObject | null => {
@@ -47,15 +48,19 @@ export const convertBase64toUploadObject = (url: string, blobName: string): Uplo
 
 		if (!new RegExp(base64RegexExpression).test(url)) return null;
 
-		const response = Buffer.from(url, 'base64');
-		const uint8Array = new Uint8Array(
-			response.buffer,
-			response.byteOffset,
-			response.byteLength / Uint8Array.BYTES_PER_ELEMENT
-		);
+		const [dataType, content] = url.replace('data:', '').replace('base64,', '').split(';');
+		const contentBuffer = Buffer.from(content, 'base64');
+		// const uint8Array = new Uint8Array(
+		// 	response.buffer,
+		// 	response.byteOffset,
+		// 	response.byteLength / Uint8Array.BYTES_PER_ELEMENT
+		// );
 
-		const [dataType, _] = url.replace('data:', '').split(';');
-		return { name: blobName, object: uint8Array, type: dataType };
+		return {
+			name: blobName.replace(/ /g, '_').toLowerCase(),
+			object: contentBuffer,
+			type: dataType
+		};
 	} catch (error) {
 		throw error;
 	}

@@ -13,7 +13,7 @@ export interface IStorage {
 	createBucket: () => Promise<CreateBucketCommandOutput>;
 	createObject: (
 		key: string,
-		body: string | Readable | Blob | Uint8Array,
+		body: string | Readable | Blob | Uint8Array | Buffer,
 		contentType?: string
 	) => Promise<PutObjectCommandOutput>;
 	getObject: (key: string) => Promise<GetObjectCommandOutput>;
