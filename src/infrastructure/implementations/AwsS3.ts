@@ -55,15 +55,23 @@ export class AwsS3 implements IStorage {
 
 	async createObject(
 		key: string,
-		body: string | Readable | Blob,
+		body: string | Readable | Blob | Uint8Array | Buffer,
 		contentType?: string | undefined
 	): Promise<PutObjectCommandOutput> {
 		try {
+			const buckets = await this.getBuckets();
+
+			if (!buckets.Buckets?.find(bucket => bucket.Name === this.bucketName)) {
+				this.createBucket();
+			}
+
 			const command = new PutObjectCommand({
 				Bucket: this.bucketName,
 				Key: key,
 				Body: body,
-				ContentType: contentType
+				ContentType: contentType,
+				ContentEncoding: 'base64',
+				ACL: 'public-read'
 			});
 			return await this.client.send(command);
 		} catch (error) {

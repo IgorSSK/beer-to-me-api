@@ -1,6 +1,7 @@
 import { AttributeValue } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import moment from 'moment';
+
 const marshallConfig = {
 	convertClassInstanceToMap: true,
 	removeUndefinedValues: true
@@ -11,7 +12,8 @@ export const convertObjectToDynamo = (obj: any) => {
 		if (typeof value === 'object') convertObjectToDynamo(value);
 		if (
 			String(new Date(String(obj[key]))) !== 'Invalid Date' &&
-			!isNaN(new Date(String(obj[key]))?.getTime())
+			!isNaN(new Date(String(obj[key]))?.getTime()) &&
+			typeof value !== 'number'
 		) {
 			obj[key] = (value as Date).toISOString();
 		}
@@ -34,11 +36,31 @@ export const convertDynamoToObject = <T>(
 	return parsed as T;
 };
 
-export const convertBase64toBlob = async (url: string, blobName: string) => {
+export type UploadObject = {
+	name: string;
+	object: Buffer;
+	type: string;
+};
+export const convertBase64toUploadObject = (url: string, blobName: string): UploadObject | null => {
 	try {
-		const response = await fetch(url);
+		const base64RegexExpression =
+			/(?:[A-Za-z\d+/]{4})*(?:[A-Za-z\d+/]{3}=|[A-Za-z\d+/]{2}==)?/g;
 
-		return response;
+		if (!new RegExp(base64RegexExpression).test(url)) return null;
+
+		const [dataType, content] = url.replace('data:', '').replace('base64,', '').split(';');
+		const contentBuffer = Buffer.from(content, 'base64');
+		// const uint8Array = new Uint8Array(
+		// 	response.buffer,
+		// 	response.byteOffset,
+		// 	response.byteLength / Uint8Array.BYTES_PER_ELEMENT
+		// );
+
+		return {
+			name: blobName.replace(/ /g, '_').toLowerCase(),
+			object: contentBuffer,
+			type: dataType
+		};
 	} catch (error) {
 		throw error;
 	}

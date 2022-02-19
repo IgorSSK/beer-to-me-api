@@ -9,7 +9,7 @@ class EstabelishmentSchema {
 	address: string;
 
 	@Field({ nullable: true })
-	image: string;
+	imageUrl: string;
 }
 
 @InputType()
@@ -21,7 +21,7 @@ class EstabelishmentInput {
 	address: string;
 
 	@Field()
-	image: string;
+	imageUrl: string;
 }
 
 export { EstabelishmentSchema, EstabelishmentInput };
