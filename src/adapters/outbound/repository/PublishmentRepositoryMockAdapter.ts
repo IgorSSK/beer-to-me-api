@@ -1,7 +1,6 @@
 import Publishment from '@application/domain/entities/Publishment';
-import PublishmentRepositoryPort from '@application/ports/outbound/PublishmentRepositoryPort';
 
-class PublishmentRepositoryMockAdapter implements PublishmentRepositoryPort {
+class PublishmentRepositoryMockAdapter {
 	private _publishments: Publishment[];
 	constructor() {
 		this._publishments = [];
