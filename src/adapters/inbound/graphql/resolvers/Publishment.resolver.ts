@@ -6,7 +6,7 @@ import Publishment from '@application/domain/entities/Publishment';
 import Comment from '@application/domain/entities/Comment';
 import { InsertCommentInput } from '../schemas/Comment.schema';
 import { PublishmentSchema, CreatePublishmentInput } from '../schemas/Publishment.schema';
-import { VoteConfiabilityArgs } from '../schemas/Confiability.schema';
+import { ConfiabilitySchema, VoteConfiabilityArgs } from '../schemas/Confiability.schema';
 import Logger from '@common/helpers/Logger';
 
 @Resolver()
@@ -59,16 +59,16 @@ class PublishmentResolver {
 		return;
 	}
 
-	@Mutation(() => String, { nullable: true })
-	voteConfiability(@Args() { publishmentId, confiability }: VoteConfiabilityArgs): void {
+	@Mutation(() => ConfiabilitySchema, { nullable: true })
+	voteConfiability(@Args() { publishmentId, confiability }: VoteConfiabilityArgs) {
 		const pin = Logger.start();
 		Logger.info('[Resolver] Mutation: voteConfiability');
 		Logger.info('[Resolver] Input Params: ', { publishmentId, confiability });
 
-		this._publishmentService.voteConfiability(publishmentId, confiability);
+		const response = this._publishmentService.voteConfiability(publishmentId, confiability);
 
 		Logger.end(pin);
-		return;
+		return response;
 	}
 
 	@Mutation(() => String, { nullable: true })

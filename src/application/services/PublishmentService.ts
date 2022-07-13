@@ -1,4 +1,5 @@
 import Comment from '@application/domain/entities/Comment';
+import Confiability from '@application/domain/entities/Confiability';
 import PublishmentRepositoryPort from '@application/ports/outbound/PublishmentRepositoryPort';
 import { convertBase64toUploadObject } from '@common/helpers/Converter';
 import Logger from '@common/helpers/Logger';
@@ -14,9 +15,8 @@ class PublishmentService extends ServiceBase<Publishment> implements Publishment
 	override async create(publishment: Publishment): Promise<void> {
 		try {
 			if (publishment?.estabelishment?.imageUrl) {
-				const name = `estabelishments/${
-					publishment?.estabelishment.name
-				}-${new Date().getTime()}`;
+				const name = `estabelishments/${publishment?.estabelishment.name
+					}-${new Date().getTime()}`;
 				const estabelishmentImage = convertBase64toUploadObject(
 					publishment?.estabelishment?.imageUrl,
 					name
@@ -74,7 +74,7 @@ class PublishmentService extends ServiceBase<Publishment> implements Publishment
 		}
 	}
 
-	async voteConfiability(publishmentId: string, confiability: number): Promise<void> {
+	async voteConfiability(publishmentId: string, confiability: number): Promise<Confiability> {
 		try {
 			const response = await this._publishmentRepository.findById(publishmentId);
 
@@ -86,7 +86,8 @@ class PublishmentService extends ServiceBase<Publishment> implements Publishment
 			Logger.info('[Service] New calculated confiability: ', publishment.confiability);
 
 			await this._publishmentRepository.update(publishmentId, publishment);
-			return;
+
+			return publishment.confiability;
 		} catch (error) {
 			Logger.error(`[Service] ${error.message}`, error);
 			throw error;
